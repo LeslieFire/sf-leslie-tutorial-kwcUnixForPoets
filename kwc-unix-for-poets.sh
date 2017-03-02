@@ -44,5 +44,11 @@ grep -Ei  '^(.*vi.*){2,}$' data/genesis.words | wc -l
 grep -Ei  '^(.*vi.*){3,}$' data/genesis.words | wc -l
 
 
+# count word initial consonant sequences
+sed -r 's/^([^aeiou]*)[aeiouy].*$/\1/i' data/genesis.words | sort -f | uniq -c
+
+# count word final consonant sequences
+sed -r 's/^.*[aeiouy]([^aeiouy]+)$|^.*[aeiouy]($)/\1/i' data/genesis.words | sort -f | uniq -c
+
 
 
