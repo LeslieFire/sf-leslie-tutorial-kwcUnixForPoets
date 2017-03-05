@@ -50,5 +50,7 @@ sed -r 's/^([^aeiou]*)[aeiouy].*$/\1/i' data/genesis.words | sort -f | uniq -c
 # count word final consonant sequences
 sed -r 's/^.*[aeiouy]([^aeiouy]+)$|^.*[aeiouy]($)/\1/i' data/genesis.words | sort -f | uniq -c
 
-
+#  sort the words in Genesis by the number of syllables (sequences of vowels)
+sed 's/[^aeiouAEIOU]/ /g' < data/genesis.words | awk '{print NF}' > data/genesis.count
+paste data/genesis.count data/genesis.words | sort -nr |uniq | awk '{print $2}'> sort-by-syllables.genesis
 
