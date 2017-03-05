@@ -54,3 +54,20 @@ sed -r 's/^.*[aeiouy]([^aeiouy]+)$|^.*[aeiouy]($)/\1/i' data/genesis.words | sor
 sed 's/[^aeiouAEIOU]/ /g' < data/genesis.words | awk '{print NF}' > data/genesis.count
 paste data/genesis.count data/genesis.words | sort -nr |uniq | awk '{print $2}'> sort-by-syllables.genesis
 
+# find vowel sequences that appear at least 10 times
+awk '$1 >= 4' data/genesis.hist
+# find bigrams that appear exactly twice
+awk '$1 ==2' data/genesis.bigrams
+
+# 找回文
+rev < data/genesis.types | paste - data/genesis.types | awk '$1 == $2'
+# 找逆着拼也是单词的单词
+rev < data/genesis.types | cat - data/genesis.types | sort | uniq -c | awk '$1 >= 2'
+
+# 比较bible 和 wsj，找出只出现在其中一部中的words
+tr -sc 'A-Za-z' '\012' < data/bible | sort -u > data/bible.words
+tr -sc 'A-Za-z' '\012' < data/wsj | sort -u > data/wsj.words
+cat data/bible.words data/wsj.words | sort | uniq -c | awk '$1 == 1' > data/bible-wsj.uniq
+# or
+comm data/bible.words data/wsj.words
+
