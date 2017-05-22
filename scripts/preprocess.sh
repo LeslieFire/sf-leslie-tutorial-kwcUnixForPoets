@@ -9,6 +9,9 @@ cat ../data/products/products.dat | grep  -v '[ \(（\/]' > ../data/products/pro
 # 包含各种分隔符的数据，each field one line
 cat ../data/products/products.dat | grep  '[ \(（\/]' |sed -e 's/\s\+/\n/g;s/（/\n/g; s/）//g; s/\//\n/g; s/(/\n/g; s/)//g' > ../data/products/products.sigs
 
+# 其他
+cat ../data/products/products.otherSep|grep '[^a-zA-Z] '| sed -e 's/\s\+/\n/g' > ../data/products/products.otherWhiteSep
+
 # 合并
 cat ../data/products/products.sigs ../data/products/products.sig > ../data/products/products.d
 
